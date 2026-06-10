@@ -1,1 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAMPUR General de Alumnos | Colegio Nahuelcura</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+        
+        :root {
+            --rojo: #c8102e;
+            --blanco: #ffffff;
+            --gris-claro: #e5e7eb;
+            --gris-oscuro: #4b5563;
+            --dorado: #d4af37;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--gris-oscuro);
+            background-color: var(--gris-claro);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--rojo), #9b0f24);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        /* Logos juntos verticalmente y más pequeños */
+        .logos-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .logo {
+            height: 42px;           /* Aún más pequeños */
+            border-radius: 6px;
+            background: white;
+            padding: 3px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+        
+        .title-center {
+            text-align: center;
+            flex: 1;
+            min-width: 220px;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.65rem;     /* Título más pequeño */
+            letter-spacing: 1.5px;
+            line-height: 1.1;
+        }
+        
+        .motto {
+            font-size: 0.98rem;
+            font-style: italic;
+            opacity: 0.95;
+            margin-top: 3px;
+        }
+        
+        /* Menú Desktop */
+        nav {
+            display: flex;
+            gap: 1.8rem;
+            font-weight: 700;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--dorado);
+        }
+        
+        /* Hamburguesa */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 8px;
+        }
+        
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: white;
+            border-radius: 3px;
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #9b0f24;
+            padding: 1.5rem 0;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+        }
+        
+        .mobile-menu.show { display: block; }
+        
+        .mobile-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        /* Contenido principal */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://picsum.photos/id/1015/2000/800') center/cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+        
+        .hero h2 { font-size: 2.6rem; margin-bottom: 1rem; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+        
+        .about {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .acronym {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.8rem;
+            margin: 3rem 0;
+        }
+        
+        .letter-circle {
+            width: 75px;
+            height: 75px;
+            background: var(--rojo);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            font-weight: bold;
+            margin: 0 auto 0.8rem;
+            box-shadow: 0 6px 15px rgba(200, 16, 46, 0.3);
+        }
+        
+        .btn {
+            background: var(--rojo);
+            color: white;
+            padding: 16px 36px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #9b0f24;
+            transform: scale(1.05);
+        }
+        
+        footer {
+            background: var(--gris-oscuro);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hamburger { display: flex; }
+            nav { display: none; }
+            h1 { font-size: 1.55rem; }
+        }
+        
+        @media (max-width: 600px) {
+            .header-content { 
+                padding: 0 1rem; 
+                gap: 8px;
+            }
+            h1 { font-size: 1.45rem; }
+            .motto { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <!-- Logos juntos verticalmente -->
+            <div class="logos-container">
+                <img src="https://www.colegionahuelcura.cl/wp-content/uploads/2023/02/logo-nahuelcura.png" 
+                     alt="Colegio Nahuelcura" class="logo" 
+                     onerror="this.src='https://via.placeholder.com/150x42/FFFFFF/000000?text=Nahuelcura'">
+                
+                <img src="https://via.placeholder.com/130x42/c8102e/ffffff?text=CAMPUR" 
+                     alt="Logo CAMPUR" class="logo">
+            </div>
 
+            <!-- Título y Lema -->
+            <div class="title-center">
+                <h1>CAMPUR General de Alumnos</h1>
+                <p class="motto">“Un espacio que se crea en equipo”</p>
+            </div>
+
+            <!-- Menú Desktop -->
+            <nav>
+                <a href="#inicio">Inicio</a>
+                <a href="#nosotros">Nosotros</a>
+                <a href="buzon.html">Buzón Digital</a>
+                <a href="propuestas.html">Propuestas</a>
+            </nav>
+
+            <!-- Hamburguesa -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <!-- Menú Mobile -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#inicio">Inicio</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="buzon.html">Buzón Digital</a>
+            <a href="propuestas.html">Propuestas</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="inicio" class="hero">
+        <h2>¡Tu voz, nuestro compromiso!</h2>
+        <p style="font-size: 1.3rem; max-width: 700px; margin: 20px auto;">
+            Coordinación • Aprovechamiento • Madurez • Pastoral • Unidad • Relaciones
+        </p>
+    </section>
+
+    <div class="container">
+        <section id="nosotros" class="about">
+            <h2 style="color: var(--rojo); text-align: center; margin-bottom: 2rem;">Sobre Nosotros</h2>
+            <p style="font-size: 1.2rem; text-align: center; max-width: 800px; margin: 0 auto 3rem;">
+                Somos la Lista 1 del CAMPUR General de Alumnos del Colegio Nahuelcura.<br>
+                <strong>Más información. Próximamente si salimos electos vota Lista Uno.</strong>
+            </p>
+
+            <div class="acronym">
+                <div style="text-align:center"><div class="letter-circle">C</div><strong>Coordinación</strong><p>Vicente Moreno</p></div>
+                <div style="text-align:center"><div class="letter-circle">A</div><strong>Aprovechamiento</strong><p>Loreannys Lozada</p></div>
+                <div style="text-align:center"><div class="letter-circle">M</div><strong>Madurez</strong><p>Sebastian Morales</p></div>
+                <div style="text-align:center"><div class="letter-circle">P</div><strong>Pastoral</strong><p>Florencia Yañez</p></div>
+                <div style="text-align:center"><div class="letter-circle">U</div><strong>Unidad</strong><p>Laura Herrera</p></div>
+                <div style="text-align:center"><div class="letter-circle">R</div><strong>Relaciones</strong><p>Dominga Araneda</p></div>
+            </div>
+        </section>
+
+        <div style="text-align: center; margin: 4rem 0;">
+            <a href="buzon.html" class="btn">→ Enviar propuesta al Buzón Digital</a>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>CAMPUR General de Alumnos • Colegio Nahuelcura de Machalí</strong></p>
+        <p>“Un espacio que se crea en equipo”</p>
+        <p>Lista 1 • Vota por nosotros</p>
+        <p style="margin-top: 1rem; opacity: 0.8;">© 2026 - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('show');
+        });
+
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>
