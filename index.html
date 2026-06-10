@@ -23,7 +23,69 @@
             color: var(--gris-oscuro);
             background-color: var(--gris-claro);
         }
-        
+
+        /* ==================== MODAL FLOTANTE ==================== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show { display: flex; }
+
+        .modal-content {
+            background: white;
+            max-width: 420px;
+            width: 90%;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: popIn 0.6s ease forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); }
+        }
+
+        .modal-image {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 20px;
+            background: transparent;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .btn-votar {
+            background: var(--rojo);
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s;
+            box-shadow: 0 8px 20px rgba(200, 16, 46, 0.3);
+        }
+
+        .btn-votar:hover {
+            background: #9b0f24;
+            transform: scale(1.08) translateY(-3px);
+        }
+
+        /* ==================== Resto de tus estilos ==================== */
         header {
             background: linear-gradient(135deg, var(--rojo), #9b0f24);
             color: white;
@@ -45,7 +107,6 @@
             gap: 12px;
         }
         
-        /* Logos juntos verticalmente y más pequeños */
         .logos-container {
             display: flex;
             flex-direction: column;
@@ -54,7 +115,7 @@
         }
         
         .logo {
-            height: 42px;           /* Aún más pequeños */
+            height: 42px;
             border-radius: 6px;
             background: white;
             padding: 3px;
@@ -69,7 +130,7 @@
         
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.65rem;     /* Título más pequeño */
+            font-size: 1.65rem;
             letter-spacing: 1.5px;
             line-height: 1.1;
         }
@@ -81,7 +142,6 @@
             margin-top: 3px;
         }
         
-        /* Menú Desktop */
         nav {
             display: flex;
             gap: 1.8rem;
@@ -98,7 +158,6 @@
             color: var(--dorado);
         }
         
-        /* Hamburguesa */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -136,7 +195,6 @@
             font-weight: 700;
         }
         
-        /* Contenido principal */
         .hero {
             background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://picsum.photos/id/1015/2000/800') center/cover;
             color: white;
@@ -204,7 +262,6 @@
             padding: 3rem 1rem;
         }
         
-        /* Responsive */
         @media (max-width: 992px) {
             .hamburger { display: flex; }
             nav { display: none; }
@@ -212,20 +269,36 @@
         }
         
         @media (max-width: 600px) {
-            .header-content { 
-                padding: 0 1rem; 
-                gap: 8px;
-            }
+            .header-content { padding: 0 1rem; gap: 8px; }
             h1 { font-size: 1.45rem; }
             .motto { font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
+
+    <!-- ====================== PANTALLA FLOTANTE ====================== -->
+    <div class="modal" id="welcomeModal">
+        <div class="modal-content">
+            <!-- Cuadro invisible para imagen con fondo transparente -->
+            <div class="modal-image">
+                <img src="TU-LOGO-AQUI.png" 
+                     alt="Lista 1 CAMPUR" 
+                     onerror="this.src='https://via.placeholder.com/180x180/FFFFFF/000000?text=LISTA+1'">
+            </div>
+
+            <h2>¡VOTA LISTA 1!</h2>
+            <p><strong>Recuerda:</strong> Las votaciones se realizarán durante el segundo semestre.</p>
+            
+            <button class="btn-votar" id="closeModalBtn">
+                Yo elijo un mejor año
+            </button>
+        </div>
+    </div>
+
     <!-- Header -->
     <header>
         <div class="header-content">
-            <!-- Logos juntos verticalmente -->
             <div class="logos-container">
                 <img src="IMG_4743.webp" 
                      alt="Colegio Nahuelcura" class="logo" 
@@ -235,13 +308,11 @@
                      alt="Logo CAMPUR" class="logo">
             </div>
 
-            <!-- Título y Lema -->
             <div class="title-center">
                 <h1>CAMPUR General de Alumnos</h1>
                 <p class="motto">“Un espacio que se crea en equipo”</p>
             </div>
 
-            <!-- Menú Desktop -->
             <nav>
                 <a href="#inicio">Inicio</a>
                 <a href="#nosotros">Nosotros</a>
@@ -249,7 +320,6 @@
                 <a href="propuestas.html">Propuestas</a>
             </nav>
 
-            <!-- Hamburguesa -->
             <div class="hamburger" id="hamburger">
                 <span></span>
                 <span></span>
@@ -257,7 +327,6 @@
             </div>
         </div>
 
-        <!-- Menú Mobile -->
         <div class="mobile-menu" id="mobileMenu">
             <a href="#inicio">Inicio</a>
             <a href="#nosotros">Nosotros</a>
@@ -305,6 +374,26 @@
     </footer>
 
     <script>
+        // ==================== SCRIPT DEL MODAL ====================
+        const modal = document.getElementById('welcomeModal');
+        const closeBtn = document.getElementById('closeModalBtn');
+
+        // Mostrar modal al cargar
+        window.addEventListener('load', () => {
+            modal.classList.add('show');
+        });
+
+        // Cerrar modal
+        closeBtn.addEventListener('click', () => {
+            modal.style.transition = 'opacity 0.4s ease';
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.classList.remove('show');
+                modal.style.opacity = '1';
+            }, 400);
+        });
+
+        // Menú hamburguesa
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
 
