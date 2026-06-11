@@ -6,7 +6,7 @@
     <title>Propuestas - CAMPUR General de Alumnos</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap');
-        
+
         :root {
             --rojo: #c8102e;
             --blanco: #ffffff;
@@ -14,9 +14,9 @@
             --gris-oscuro: #4b5563;
             --dorado: #d4af37;
         }
-        
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
             font-family: 'Roboto', sans-serif;
             line-height: 1.6;
@@ -27,9 +27,15 @@
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── HEADER ── */
         header {
             background: linear-gradient(135deg, var(--rojo), #9b0f24);
             color: white;
@@ -51,12 +57,7 @@
             gap: 12px;
         }
 
-        .logos-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
+        .logos-container { display: flex; flex-direction: column; align-items: center; gap: 5px; }
 
         .logo {
             height: 42px;
@@ -66,16 +67,9 @@
             box-shadow: 0 3px 6px rgba(0,0,0,0.2);
             transition: transform 0.3s;
         }
+        .logo:hover { transform: scale(1.08); }
 
-        .logo:hover {
-            transform: scale(1.08);
-        }
-
-        .title-center {
-            text-align: center;
-            flex: 1;
-            min-width: 220px;
-        }
+        .title-center { text-align: center; flex: 1; min-width: 220px; }
 
         h1 {
             font-family: 'Playfair Display', serif;
@@ -83,30 +77,14 @@
             letter-spacing: 1.5px;
         }
 
-        .motto {
-            font-size: 0.98rem;
-            font-style: italic;
-            opacity: 0.95;
-        }
+        .motto { font-size: 0.98rem; font-style: italic; opacity: 0.95; }
 
         nav { display: flex; gap: 1.8rem; font-weight: 700; }
         nav a { color: white; text-decoration: none; transition: color 0.3s; }
         nav a:hover { color: var(--dorado); }
 
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-            padding: 8px;
-        }
-        .hamburger span {
-            width: 28px;
-            height: 3px;
-            background: white;
-            border-radius: 3px;
-            transition: all 0.3s;
-        }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; padding: 8px; }
+        .hamburger span { width: 28px; height: 3px; background: white; border-radius: 3px; transition: all 0.3s; }
 
         .mobile-menu {
             display: none;
@@ -118,14 +96,11 @@
             padding: 1.5rem 0;
             box-shadow: 0 10px 15px rgba(0,0,0,0.3);
         }
-        .mobile-menu.show { 
-            display: block; 
-            animation: slideDown 0.4s ease; 
-        }
+        .mobile-menu.show { display: block; animation: slideDown 0.4s ease; }
 
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .mobile-menu a {
@@ -139,44 +114,190 @@
         }
         .mobile-menu a:hover { background: rgba(255,255,255,0.15); }
 
+        /* ── CONTAINER ── */
         .container {
-            max-width: 1000px;
-            margin: 4rem auto;
-            padding: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 5rem;
+        }
+
+        /* ── INTRO ── */
+        .page-intro {
             text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.7s ease forwards;
         }
 
-        .propuestas-container {
-            background: white;
-            border-radius: 20px;
-            padding: 4rem 2rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2 {
-            color: var(--rojo);
+        .page-intro h2 {
+            font-family: 'Playfair Display', serif;
             font-size: 2.4rem;
-            margin-bottom: 1.5rem;
+            color: var(--rojo);
+            margin-bottom: 0.75rem;
         }
 
-        .coming-soon {
-            font-size: 1.35rem;
+        .page-intro p {
+            font-size: 1.1rem;
             color: var(--gris-oscuro);
             max-width: 700px;
-            margin: 2rem auto;
+            margin: 0 auto;
+            line-height: 1.75;
+        }
+
+        /* ── GRID 12 PROPUESTAS ── */
+        .propuestas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.6rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 0.7s ease forwards;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:nth-child(1)  { animation-delay: 0.05s; }
+        .card:nth-child(2)  { animation-delay: 0.10s; }
+        .card:nth-child(3)  { animation-delay: 0.15s; }
+        .card:nth-child(4)  { animation-delay: 0.20s; }
+        .card:nth-child(5)  { animation-delay: 0.25s; }
+        .card:nth-child(6)  { animation-delay: 0.30s; }
+        .card:nth-child(7)  { animation-delay: 0.35s; }
+        .card:nth-child(8)  { animation-delay: 0.40s; }
+        .card:nth-child(9)  { animation-delay: 0.45s; }
+        .card:nth-child(10) { animation-delay: 0.50s; }
+        .card:nth-child(11) { animation-delay: 0.55s; }
+        .card:nth-child(12) { animation-delay: 0.60s; }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(0,0,0,0.13);
+        }
+
+        .card-top {
+            padding: 1.2rem 1.4rem 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.9rem;
+        }
+
+        .card-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            flex-shrink: 0;
+            min-width: 2rem;
+        }
+
+        .card-titles { flex: 1; }
+
+        .card-titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.25;
+            color: #1a1a1a;
+        }
+
+        .card-tag {
+            display: inline-block;
+            margin-top: 5px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 2px 9px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .card-divider {
+            height: 3px;
+            margin: 0 1.4rem;
+            border-radius: 2px;
+        }
+
+        .card-desc {
+            padding: 1rem 1.4rem 1.4rem;
+            font-size: 0.93rem;
+            line-height: 1.65;
+            color: var(--gris-oscuro);
+            flex: 1;
+        }
+
+        /* Colores por propuesta */
+        .c1  { --ac: #c8102e; } .c2  { --ac: #e07b1a; } .c3  { --ac: #2d6a2d; }
+        .c4  { --ac: #1a4fa0; } .c5  { --ac: #9b2060; } .c6  { --ac: #2d5a6a; }
+        .c7  { --ac: #7a3fa0; } .c8  { --ac: #c8102e; } .c9  { --ac: #d4841a; }
+        .c10 { --ac: #1a7a4a; } .c11 { --ac: #1a4fa0; } .c12 { --ac: #8a2020; }
+
+        .card .card-num   { color: var(--ac); }
+        .card .card-tag   { background: var(--ac); }
+        .card .card-divider { background: var(--ac); }
+
+        /* ── SECCIÓN PRÓXIMAMENTE ── */
+        .prox-section {
+            margin-top: 3.5rem;
+            background: white;
+            border-radius: 20px;
+            padding: 2.8rem 2.2rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            text-align: center;
+            animation: fadeInUp 0.8s 0.65s ease forwards;
+            opacity: 0;
+        }
+
+        .prox-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: var(--gris-oscuro);
+            margin-bottom: 0.6rem;
+        }
+
+        .prox-section .prox-badge {
+            display: inline-block;
+            background: var(--gris-claro);
+            color: var(--gris-oscuro);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 1.4rem;
+        }
+
+        .prox-section p {
+            font-size: 1.05rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 1.6rem;
             line-height: 1.7;
         }
 
-        .icon {
-            font-size: 4.5rem;
-            margin-bottom: 1.5rem;
-            opacity: 0.9;
+        .prox-cta {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--rojo), #9b0f24);
+            color: white;
+            text-decoration: none;
+            padding: 0.85rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 14px rgba(200,16,46,0.35);
+        }
+        .prox-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(200,16,46,0.45);
         }
 
         footer {
@@ -194,43 +315,36 @@
         }
 
         @media (max-width: 600px) {
-            .propuestas-container { padding: 2.5rem 1.5rem; }
-            h2 { font-size: 2rem; }
+            .page-intro h2 { font-size: 1.9rem; }
+            .propuestas-grid { grid-template-columns: 1fr; }
+            .prox-section { padding: 2rem 1.4rem; }
         }
     </style>
 </head>
 <body>
+
     <!-- Header -->
     <header>
         <div class="header-content">
             <div class="logos-container">
-                <img src="IMG_4743.webp" 
-                     alt="Colegio Nahuelcura" class="logo" 
+                <img src="IMG_4743.webp" alt="Colegio Nahuelcura" class="logo"
                      onerror="this.src='https://via.placeholder.com/150x42/FFFFFF/000000?text=Nahuelcura'">
-                
-                <img src="047299cb-a720-4dfe-a6dc-59a72ae1bac5.jpeg" 
-                     alt="Logo CAMPUR" class="logo">
+                <img src="047299cb-a720-4dfe-a6dc-59a72ae1bac5.jpeg" alt="Logo CAMPUR" class="logo">
             </div>
-
             <div class="title-center">
                 <h1>CAMPUR General de Alumnos</h1>
-                <p class="motto">“Un espacio que se crea en equipo”</p>
+                <p class="motto">"Un espacio que se crea en equipo"</p>
             </div>
-
             <nav>
                 <a href="index.html">Inicio</a>
                 <a href="index.html#nosotros">Nosotros</a>
                 <a href="buzon.html">Buzón Digital</a>
                 <a href="propuestas.html">Propuestas</a>
             </nav>
-
             <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
         </div>
-
         <div class="mobile-menu" id="mobileMenu">
             <a href="index.html">Inicio</a>
             <a href="index.html#nosotros">Nosotros</a>
@@ -240,29 +354,218 @@
     </header>
 
     <div class="container">
-        <div class="propuestas-container">
-            <div class="icon">📋</div>
-            <h2>Nuestras Propuestas</h2>
-            <p class="coming-soon">
-                Aquí iremos agregando todas nuestras propuestas e iniciativas<br>
-                para mejorar el Colegio Nahuelcura.
-            </p>
-            <p style="font-size: 1.2rem; color: #666; margin-top: 2rem;">
-                <strong>Próximamente...</strong><br>
-                Una vez electos, publicaremos todas las ideas y proyectos que impulsaremos.
-            </p>
+
+        <!-- Intro -->
+        <div class="page-intro">
+            <h2>📋 Nuestras Propuestas</h2>
+            <p>Pensadas por y para los estudiantes, con el objetivo de mejorar la convivencia, fortalecer la amistad y hacer de nuestro colegio un lugar donde todos podamos disfrutar y crecer juntos.</p>
         </div>
+
+        <!-- 12 propuestas -->
+        <div class="propuestas-grid">
+
+            <!-- 1 -->
+            <div class="card c1">
+                <div class="card-top">
+                    <div class="card-num">01</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Espacio artístico colectivo</div>
+                        <span class="card-tag">Creatividad Escolar</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Habilitar una gran tela o espacio artístico donde todos los estudiantes puedan pintar, dibujar o expresar sus ideas y creatividad libremente.
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="card c2">
+                <div class="card-top">
+                    <div class="card-num">02</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Taller de escritura creativa</div>
+                        <span class="card-tag">Creatividad Escolar</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Habilitar un taller de escritura con la colaboración de un profesor de lenguaje, para que los jóvenes creativos creen historias y poemas propios y los exhiban de forma física o digital.
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="card c3">
+                <div class="card-top">
+                    <div class="card-num">03</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Banca de la Amistad</div>
+                        <span class="card-tag">Convivencia</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Instalar un Banco de la Amistad en el patio para que cualquier estudiante que se sienta solo o quiera conocer nuevos amigos tenga un espacio donde otros compañeros puedan acercarse a conversar e integrarlo.
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="card c4">
+                <div class="card-top">
+                    <div class="card-num">04</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Afiches de empatía y respeto</div>
+                        <span class="card-tag">Taller de la Empatía</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Instalar afiches y material visual que fomenten la empatía, el respeto y la reflexión sobre las consecuencias del bullying, para que todos sientan empatía con quienes sufren estas situaciones.
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="card c5">
+                <div class="card-top">
+                    <div class="card-num">05</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Actividades de apoyo entre compañeros</div>
+                        <span class="card-tag">Taller de la Empatía</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Realizar actividades y representaciones que enseñen cómo ayudar a un compañero que se siente mal, promoviendo la búsqueda de ayuda cuando sea necesario, dentro del bloque de Campur del curso.
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="card c6">
+                <div class="card-top">
+                    <div class="card-num">06</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Campaña de recolección solidaria</div>
+                        <span class="card-tag">Pastoral</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Organizar campañas de recolección de útiles escolares, ropa y ayuda para familias que lo necesiten, siguiendo el ejemplo solidario que realizan los estudiantes de cuarto medio.
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="card c7">
+                <div class="card-top">
+                    <div class="card-num">07</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Jornadas y actividades temáticas</div>
+                        <span class="card-tag">Pastoral</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Organizar jornadas especiales y actividades temáticas para hacer el colegio más dinámico, entretenido y motivador para todos los estudiantes.
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="card c8">
+                <div class="card-top">
+                    <div class="card-num">08</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Dispensador de toallas higiénicas</div>
+                        <span class="card-tag">Pastoral</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Reunir fondos para colocar un dispensador de toallas higiénicas en el baño de mujeres, buscando normalizarlo y apoyar a todas las estudiantes.
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="card c9">
+                <div class="card-top">
+                    <div class="card-num">09</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Celebraciones mensuales de cumpleaños</div>
+                        <span class="card-tag">Unidad</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Realizar celebraciones mensuales para reconocer a todos los estudiantes que cumplen años durante ese mes y fortalecer la unión y compañerismo.
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="card c10">
+                <div class="card-top">
+                    <div class="card-num">10</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Actividades recreativas y deportivas para todos</div>
+                        <span class="card-tag">Unidad</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Organizar actividades recreativas y deportivas donde todos puedan participar, no solamente quienes practican deporte habitualmente, fomentando la inclusión.
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="card c11">
+                <div class="card-top">
+                    <div class="card-num">11</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Buzón anónimo de apoyo y de ideas</div>
+                        <span class="card-tag">Convivencia Justa</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Crear un buzón anónimo físico en el primer piso para estudiantes que sufran maltrato, exclusión o bullying, y otro buzón para recibir ideas y propuestas de mejora del colegio.
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="card c12">
+                <div class="card-top">
+                    <div class="card-num">12</div>
+                    <div class="card-titles">
+                        <div class="card-titulo">Mural de convivencia elaborado por alumnos</div>
+                        <span class="card-tag">Convivencia Justa</span>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-desc">
+                    Crear un gran mural con reglas de convivencia elaboradas por los propios alumnos para promover el respeto y la buena convivencia en toda la comunidad escolar.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Más propuestas próximamente -->
+        <div class="prox-section">
+            <span class="prox-badge">✦ Próximamente ✦</span>
+            <h3>¿Tienes más propuestas?</h3>
+            <p>
+                Tenemos más ideas en camino. Si tú también tienes una propuesta para mejorar nuestro colegio, ¡déjala en el Buzón Digital! Tu opinión es parte de este equipo.
+            </p>
+            <a href="buzon.html" class="prox-cta">📬 Dejar mi propuesta en el Buzón Digital</a>
+        </div>
+
     </div>
 
     <footer>
         <p><strong>CAMPUR General de Alumnos • Colegio Nahuelcura de Machalí</strong></p>
-        <p>“Un espacio que se crea en equipo”</p>
+        <p>"Un espacio que se crea en equipo"</p>
         <p>Lista 1 • Vota por nosotros</p>
         <p style="margin-top: 1rem; opacity: 0.8;">© 2026 - Todos los derechos reservados</p>
     </footer>
 
     <script>
-        // Menú hamburguesa
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
 
