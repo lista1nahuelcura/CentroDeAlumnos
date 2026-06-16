@@ -275,6 +275,113 @@
             h1 { font-size: 1.45rem; }
             .motto { font-size: 0.9rem; }
         }
+   /* ==================== CHATBOT NAHUELCURITOS ==================== */
+.chat-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #2F8D46;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 65px;
+  height: 65px;
+  font-size: 30px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 1000;
+  transition: all 0.3s;
+}
+
+.chat-button:hover {
+  transform: scale(1.1);
+}
+
+.chat-window {
+  position: fixed;
+  bottom: 95px;
+  right: 20px;
+  width: 360px;
+  height: 520px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1001;
+}
+
+.chat-header {
+  background: #2F8D46;
+  color: white;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-header img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  margin: 8px 0;
+  padding: 12px 15px;
+  border-radius: 18px;
+  max-width: 85%;
+  line-height: 1.4;
+}
+
+.bot {
+  background: #e9ecef;
+  align-self: flex-start;
+  border-bottom-left-radius: 5px;
+}
+
+.user {
+  background: #2F8D46;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 5px;
+}
+
+.chat-input {
+  padding: 12px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  background: white;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+}
+
+.chat-input button {
+  margin-left: 8px;
+  background: #2F8D46;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  border-radius: 25px;
+  cursor: pointer;
+}
     </style>
 </head>
 <body>
