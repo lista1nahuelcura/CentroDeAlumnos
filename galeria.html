@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Arte Digital - CAMPUR General de Alumnos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+
+        :root {
+            --rojo: #c8102e;
+            --blanco: #ffffff;
+            --gris-claro: #e5e7eb;
+            --gris-oscuro: #4b5563;
+            --dorado: #d4af37;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--gris-oscuro);
+            background-color: var(--gris-claro);
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── HEADER ── */
+        header {
+            background: linear-gradient(135deg, var(--rojo), #9b0f24);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logos-container { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+
+        .logo {
+            height: 42px;
+            border-radius: 6px;
+            background: white;
+            padding: 3px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        .logo:hover { transform: scale(1.08); }
+
+        .title-center { text-align: center; flex: 1; min-width: 220px; }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.65rem;
+            letter-spacing: 1.5px;
+        }
+
+        .motto { font-size: 0.98rem; font-style: italic; opacity: 0.95; }
+
+        nav { display: flex; gap: 1.8rem; font-weight: 700; }
+        nav a { color: white; text-decoration: none; transition: color 0.3s; }
+        nav a:hover { color: var(--dorado); }
+
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; padding: 8px; }
+        .hamburger span { width: 28px; height: 3px; background: white; border-radius: 3px; transition: all 0.3s; }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #9b0f24;
+            padding: 1.5rem 0;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+        }
+        .mobile-menu.show { display: block; animation: slideDown 0.4s ease; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            transition: background 0.3s;
+        }
+        .mobile-menu a:hover { background: rgba(255,255,255,0.15); }
+
+        /* ── CONTAINER ── */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 5rem;
+        }
+
+        /* ── INTRO ── */
+        .page-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.7s ease forwards;
+        }
+
+        .page-intro h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            color: var(--rojo);
+            margin-bottom: 0.75rem;
+        }
+
+        .page-intro p {
+            font-size: 1.1rem;
+            color: var(--gris-oscuro);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.75;
+        }
+
+        /* ── GRID GALERÍA ── */
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+
+        /* ── TARJETA ALUMNO ── */
+        /*
+         * PERSONALIZACIÓN POR TARJETA:
+         * Cada .arte-card contiene:
+         *   - .carrusel       → cambia los src de los 2 <img> dentro
+         *   - .arte-titulo    → cambia el texto del título de la obra
+         *   - .arte-alumno    → cambia el nombre del alumno
+         *   - .arte-desc      → cambia la descripción
+         *   - data-color=""   → color de acento hex (border + número)
+         */
+        .arte-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 0.7s ease forwards;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .arte-card:nth-child(1)  { animation-delay: 0.05s; }
+        .arte-card:nth-child(2)  { animation-delay: 0.10s; }
+        .arte-card:nth-child(3)  { animation-delay: 0.15s; }
+        .arte-card:nth-child(4)  { animation-delay: 0.20s; }
+        .arte-card:nth-child(5)  { animation-delay: 0.25s; }
+        .arte-card:nth-child(6)  { animation-delay: 0.30s; }
+        .arte-card:nth-child(7)  { animation-delay: 0.35s; }
+        .arte-card:nth-child(8)  { animation-delay: 0.40s; }
+        .arte-card:nth-child(9)  { animation-delay: 0.45s; }
+        .arte-card:nth-child(10) { animation-delay: 0.50s; }
+        .arte-card:nth-child(11) { animation-delay: 0.55s; }
+        .arte-card:nth-child(12) { animation-delay: 0.60s; }
+        .arte-card:nth-child(13) { animation-delay: 0.65s; }
+        .arte-card:nth-child(14) { animation-delay: 0.70s; }
+        .arte-card:nth-child(15) { animation-delay: 0.75s; }
+        .arte-card:nth-child(16) { animation-delay: 0.80s; }
+
+        .arte-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(0,0,0,0.13);
+        }
+
+        /* ── CARRUSEL ── */
+        .carrusel {
+            position: relative;
+            width: 100%;
+            height: 210px;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .carrusel-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.45s ease;
+        }
+
+        .carrusel img {
+            min-width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+            /* 
+             * ── CÓMO CAMBIAR LAS IMÁGENES ──
+             * Reemplaza el src con la ruta de tu imagen:
+             *   src="mi-foto.jpg"          → imagen local en la misma carpeta
+             *   src="imagenes/obra1.png"   → subcarpeta
+             *   src="https://..."          → URL externa
+             */
+        }
+
+        .carrusel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.45);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 2;
+        }
+        .carrusel-btn:hover { background: rgba(0,0,0,0.7); }
+        .carrusel-btn.prev { left: 8px; }
+        .carrusel-btn.next { right: 8px; }
+
+        .carrusel-dots {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+        }
+
+        .carrusel-dots span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            transition: background 0.3s;
+        }
+        .carrusel-dots span.active { background: white; }
+
+        /* ── INFO ── */
+        .arte-info {
+            padding: 1.1rem 1.4rem 1.4rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            border-top: 3px solid #eee; /* JS lo sobreescribe con el color */
+        }
+
+        .arte-titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.3;
+        }
+
+        .arte-alumno {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+        }
+
+        .arte-desc {
+            font-size: 0.92rem;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            margin-top: 0.3rem;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--gris-oscuro);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 5rem;
+        }
+
+        @media (max-width: 992px) {
+            .hamburger { display: flex; }
+            nav { display: none; }
+            h1 { font-size: 1.55rem; }
+        }
+
+        @media (max-width: 600px) {
+            .page-intro h2 { font-size: 1.9rem; }
+            .galeria-grid { grid-template-columns: 1fr; }
+            .carrusel { height: 190px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════
+         HEADER  (igual en todas las páginas)
+         ═══════════════════════════════════ -->
+    <header>
+        <div class="header-content">
+            <div class="logos-container">
+                <img src="IMG_4743.webp" alt="Colegio Nahuelcura" class="logo"
+                     onerror="this.src='https://via.placeholder.com/150x42/FFFFFF/000000?text=Nahuelcura'">
+                <img src="047299cb-a720-4dfe-a6dc-59a72ae1bac5.jpeg" alt="Logo CAMPUR" class="logo">
+            </div>
+            <div class="title-center">
+                <h1>CAMPUR General de Alumnos</h1>
+                <p class="motto">"Un espacio que se crea en equipo"</p>
+            </div>
+            <nav>
+                <a href="index.html">Inicio</a>
+                <a href="index.html#nosotros">Nosotros</a>
+                <a href="buzon.html">Buzón Digital</a>
+                <a href="propuestas.html">Propuestas</a>
+                <a href="galeria.html">Galería</a>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html">Inicio</a>
+            <a href="index.html#nosotros">Nosotros</a>
+            <a href="buzon.html">Buzón Digital</a>
+            <a href="propuestas.html">Propuestas</a>
+            <a href="galeria.html">Galería</a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- INTRO -->
+        <div class="page-intro">
+            <h2>🎨 Galería de Arte Digital</h2>
+            <p>Un lugar donde le damos un espacio a todos los alumnos del Colegio Nahuelcura para expresar su creatividad, talento y visión del mundo a través del arte.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             GALERÍA — 16 TARJETAS
+             
+             CÓMO PERSONALIZAR CADA TARJETA:
+             1. Cambia los src="placeholder-X-Y.jpg" por tus imágenes reales
+             2. Edita el texto en .arte-titulo, .arte-alumno y .arte-desc
+             3. Cambia data-color="#XXXXXX" para el color de acento del borde
+             ═══════════════════════════════════════════════════════════════ -->
+        <div class="galeria-grid">
+
+            <!-- ── TARJETA 1 ── -->
+            <div class="arte-card" data-color="#c8102e">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <!-- IMAGEN 1 → cambia src -->
+                        <img src="https://placehold.co/600x420/f5d7db/c8102e?text=Obra+1A" alt="Obra 1 imagen 1">
+                        <!-- IMAGEN 2 → cambia src -->
+                        <img src="https://placehold.co/600x420/c8102e/ffffff?text=Obra+1B" alt="Obra 1 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>           <!-- ← EDITAR -->
+                    <div class="arte-alumno">Nombre del alumno</div>           <!-- ← EDITAR -->
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div> <!-- ← EDITAR -->
+                </div>
+            </div>
+
+            <!-- ── TARJETA 2 ── -->
+            <div class="arte-card" data-color="#e07b1a">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/fdebd0/e07b1a?text=Obra+2A" alt="Obra 2 imagen 1">
+                        <img src="https://placehold.co/600x420/e07b1a/ffffff?text=Obra+2B" alt="Obra 2 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 3 ── -->
+            <div class="arte-card" data-color="#2d6a2d">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/d5f0d5/2d6a2d?text=Obra+3A" alt="Obra 3 imagen 1">
+                        <img src="https://placehold.co/600x420/2d6a2d/ffffff?text=Obra+3B" alt="Obra 3 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 4 ── -->
+            <div class="arte-card" data-color="#1a4fa0">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/d0dff5/1a4fa0?text=Obra+4A" alt="Obra 4 imagen 1">
+                        <img src="https://placehold.co/600x420/1a4fa0/ffffff?text=Obra+4B" alt="Obra 4 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 5 ── -->
+            <div class="arte-card" data-color="#9b2060">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/f5d0e8/9b2060?text=Obra+5A" alt="Obra 5 imagen 1">
+                        <img src="https://placehold.co/600x420/9b2060/ffffff?text=Obra+5B" alt="Obra 5 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 6 ── -->
+            <div class="arte-card" data-color="#2d5a6a">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/d0e8f0/2d5a6a?text=Obra+6A" alt="Obra 6 imagen 1">
+                        <img src="https://placehold.co/600x420/2d5a6a/ffffff?text=Obra+6B" alt="Obra 6 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 7 ── -->
+            <div class="arte-card" data-color="#7a3fa0">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/ead5f5/7a3fa0?text=Obra+7A" alt="Obra 7 imagen 1">
+                        <img src="https://placehold.co/600x420/7a3fa0/ffffff?text=Obra+7B" alt="Obra 7 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 8 ── -->
+            <div class="arte-card" data-color="#8a2020">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/f5d5d5/8a2020?text=Obra+8A" alt="Obra 8 imagen 1">
+                        <img src="https://placehold.co/600x420/8a2020/ffffff?text=Obra+8B" alt="Obra 8 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 9 ── -->
+            <div class="arte-card" data-color="#d4841a">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/fef0d5/d4841a?text=Obra+9A" alt="Obra 9 imagen 1">
+                        <img src="https://placehold.co/600x420/d4841a/ffffff?text=Obra+9B" alt="Obra 9 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 10 ── -->
+            <div class="arte-card" data-color="#1a7a4a">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/d0f0e0/1a7a4a?text=Obra+10A" alt="Obra 10 imagen 1">
+                        <img src="https://placehold.co/600x420/1a7a4a/ffffff?text=Obra+10B" alt="Obra 10 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 11 ── -->
+            <div class="arte-card" data-color="#d4af37">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/fef9d5/d4af37?text=Obra+11A" alt="Obra 11 imagen 1">
+                        <img src="https://placehold.co/600x420/d4af37/ffffff?text=Obra+11B" alt="Obra 11 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 12 ── -->
+            <div class="arte-card" data-color="#3a6080">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/d5e8f5/3a6080?text=Obra+12A" alt="Obra 12 imagen 1">
+                        <img src="https://placehold.co/600x420/3a6080/ffffff?text=Obra+12B" alt="Obra 12 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 13 ── -->
+            <div class="arte-card" data-color="#a03030">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/f5e0e0/a03030?text=Obra+13A" alt="Obra 13 imagen 1">
+                        <img src="https://placehold.co/600x420/a03030/ffffff?text=Obra+13B" alt="Obra 13 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 14 ── -->
+            <div class="arte-card" data-color="#205a80">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/d0e5f5/205a80?text=Obra+14A" alt="Obra 14 imagen 1">
+                        <img src="https://placehold.co/600x420/205a80/ffffff?text=Obra+14B" alt="Obra 14 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 15 ── -->
+            <div class="arte-card" data-color="#5a7a20">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/e8f0d0/5a7a20?text=Obra+15A" alt="Obra 15 imagen 1">
+                        <img src="https://placehold.co/600x420/5a7a20/ffffff?text=Obra+15B" alt="Obra 15 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+            <!-- ── TARJETA 16 ── -->
+            <div class="arte-card" data-color="#6a2080">
+                <div class="carrusel">
+                    <div class="carrusel-track">
+                        <img src="https://placehold.co/600x420/ead5f0/6a2080?text=Obra+16A" alt="Obra 16 imagen 1">
+                        <img src="https://placehold.co/600x420/6a2080/ffffff?text=Obra+16B" alt="Obra 16 imagen 2">
+                    </div>
+                    <button class="carrusel-btn prev">&#8249;</button>
+                    <button class="carrusel-btn next">&#8250;</button>
+                    <div class="carrusel-dots"><span class="active"></span><span></span></div>
+                </div>
+                <div class="arte-info">
+                    <div class="arte-titulo">Título de la obra</div>
+                    <div class="arte-alumno">Nombre del alumno</div>
+                    <div class="arte-desc">Breve descripción de la obra, técnica utilizada o inspiración del artista.</div>
+                </div>
+            </div>
+
+        </div>
+        <!-- FIN GALERÍA -->
+
+    </div><!-- /container -->
+
+    <footer>
+        <p><strong>CAMPUR General de Alumnos • Colegio Nahuelcura de Machalí</strong></p>
+        <p>"Un espacio que se crea en equipo"</p>
+        <p>Lista 1 • Vota por nosotros</p>
+        <p style="margin-top:1rem;opacity:0.8;">© 2026 - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        /* ── Menú hamburguesa ── */
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => mobileMenu.classList.toggle('show'));
+        document.querySelectorAll('.mobile-menu a').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('show')));
+
+        /* ── Carruseles ── */
+        document.querySelectorAll('.arte-card').forEach(card => {
+
+            /* Aplica color de acento al borde superior de .arte-info */
+            const color = card.dataset.color || '#c8102e';
+            card.querySelector('.arte-info').style.borderTopColor = color;
+
+            const track  = card.querySelector('.carrusel-track');
+            const dots   = card.querySelectorAll('.carrusel-dots span');
+            const prevBtn = card.querySelector('.carrusel-btn.prev');
+            const nextBtn = card.querySelector('.carrusel-btn.next');
+            let current  = 0;
+            const total  = track.children.length;
+
+            function goTo(idx) {
+                current = (idx + total) % total;
+                track.style.transform = `translateX(-${current * 100}%)`;
+                dots.forEach((d, i) => d.classList.toggle('active', i === current));
+            }
+
+            prevBtn.addEventListener('click', () => goTo(current - 1));
+            nextBtn.addEventListener('click', () => goTo(current + 1));
+            dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+        });
+    </script>
+</body>
+</html>
+Listo
+
+Se quedó sin mensajes gr
