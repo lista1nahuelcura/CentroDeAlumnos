@@ -376,7 +376,27 @@
         <p>Lista 1 • Vota por nosotros</p>
         <p style="margin-top: 1rem; opacity: 0.8;">© 2026 - Todos los derechos reservados</p>
     </footer>
+  <!-- ==================== CHATBOT NAHUELCURITOS ==================== -->
+  <button class="chat-button" onclick="toggleChat()">💬</button>
 
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <img src="https://i.imgur.com/8vN5kL2.png" alt="Nahuelcuritos">
+      <div>
+        <strong>Nahuelcuritos</strong><br>
+        <small>Lista 1 - Centro de Alumnos</small>
+      </div>
+    </div>
+    
+    <div class="chat-body" id="chatBody">
+      <div class="message bot">¡Hola! Somos Nahuelcuritos 😊<br>¿En qué te podemos ayudar hoy?</div>
+    </div>
+
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Escribe tu mensaje..." onkeypress="if(event.key === 'Enter') sendMessage()">
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
     <script>
         // ==================== SCRIPT DEL MODAL ====================
         const modal = document.getElementById('welcomeModal');
@@ -410,6 +430,66 @@
                 mobileMenu.classList.remove('show');
             });
         });
+            // ==================== CHATBOT NAHUELCURITOS ====================
+    function toggleChat() {
+      const chat = document.getElementById('chatWindow');
+      chat.style.display = (chat.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const chatBody = document.getElementById('chatBody');
+
+      // Mensaje usuario
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user';
+      userMsg.textContent = message;
+      chatBody.appendChild(userMsg);
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      input.value = '';
+
+      // Respuesta del bot
+      setTimeout(() => {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'message bot';
+        
+        const lowerMsg = message.toLowerCase();
+
+        const responses = {
+          "hola": "¡Hola! ¿Cómo estás?",
+          "buenos días": "¡Buenos días! ¿En qué te ayudamos?",
+          "buenas tardes": "¡Buenas tardes! ¿Qué necesitas?",
+          "qué tal": "¡Todo bien por acá! ¿Y tú?",
+          "quiénes son": "Somos la Lista 1 del Centro de Alumnos del Colegio Nahuelcura.",
+          "quienes son": "Somos la Lista 1 del Centro de Alumnos del Colegio Nahuelcura.",
+          "elecciones": "¡Recuerda votar Lista 1 en las elecciones del CAMPUR! 🎉",
+          "votar": "¡Tu voto cuenta! Apoyá a la Lista 1 💪",
+          "buzón": "Puedes enviarnos tu propuesta aquí: <a href='buzon.html'>Buzón Digital</a>",
+          "propuesta": "¡Genial! Mandanos tu idea al buzón o contanos acá.",
+          "reunión": "Las reuniones del Centro de Alumnos son los días jueves a las 13:30 hs.",
+          "evento": "Pronto vamos a anunciar nuevos eventos.",
+          "ayuda": "Estamos para ayudarte con lo que necesites.",
+          "gracias": "¡De nada! Siempre a disposición 😊",
+          "default": "¡Gracias por tu mensaje! ¿Querés contarnos alguna idea, duda o propuesta?"
+        };
+
+        let reply = responses["default"];
+        for (let key in responses) {
+          if (lowerMsg.includes(key)) {
+            reply = responses[key];
+            break;
+          }
+        }
+
+        botMsg.innerHTML = reply;
+        chatBody.appendChild(botMsg);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }, 700);
+    }
     </script>
 </body>
 </html>
